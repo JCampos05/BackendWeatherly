@@ -1,52 +1,50 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 
-const ConsultaClima = sequelize.define('ConsultaClima', {
-    idConsulta: {
+const PreferenciaUsuarioClima = sequelize.define('PreferenciaUsuarioClima', {
+    idPreferenciaClima: {
         type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
         autoIncrement: true
     },
     idUsuario: {
-        type: DataTypes.INTEGER.UNSIGNED
-    },
-    latitud: {
-        type: DataTypes.DECIMAL(10, 8),
+        type: DataTypes.INTEGER.UNSIGNED,
         allowNull: false
     },
-    longitud: {
-        type: DataTypes.DECIMAL(11, 8),
+    idParametroClima: {
+        type: DataTypes.SMALLINT.UNSIGNED,
         allowNull: false
     },
-    parametrosConsultados: {
-        type: DataTypes.JSON,
-        comment: 'Array de parámetros solicitados'
+    estaActivo: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: true,
+        comment: 'Si el usuario quiere ver este parámetro'
     },
-    respuestaApi: {
-        type: DataTypes.JSON,
-        comment: 'Respuesta de la API'
+    ordenVisualizacion: {
+        type: DataTypes.TINYINT.UNSIGNED,
+        defaultValue: 0,
+        comment: 'Orden en el dashboard'
     },
-    fechaConsulta: {
+    configuracionAdicional: {
+        type: DataTypes.JSON,
+        comment: 'Ej: {"umbralAlerta": 35, "colorCustom": "#FF5733"}'
+    },
+    fechaCreado: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
     },
-    tiempoRespuesta: {
-        type: DataTypes.SMALLINT.UNSIGNED,
-        comment: 'Milisegundos'
-    },
-    fechaExpiracion: {
+    fechaActualizado: {
         type: DataTypes.DATE,
-        allowNull: false,
-        comment: 'TTL para cache - Ej: 15 min para datos actuales'
+        defaultValue: DataTypes.NOW
     }
 }, {
-    tableName: 'consultasClima',
+    tableName: 'preferenciasUsuarioClima',
     timestamps: false,
     indexes: [
-        { fields: ['latitud', 'longitud', 'fechaConsulta'] },
-        { fields: ['fechaExpiracion'] },
-        { fields: ['idUsuario', 'fechaConsulta'] }
+        { unique: true, fields: ['idUsuario', 'idParametroClima'] },
+        { fields: ['idUsuario'] },
+        { fields: ['estaActivo'] }
     ]
 });
 
-module.exports = ConsultaClima;
+module.exports = PreferenciaUsuarioClima;

@@ -137,13 +137,14 @@ UbicacionGuardada.belongsTo(ZonaHoraria, {
 });
 
 // ParametroClima - PreferenciaUsuarioClima (1:N)
+// FIX CRÍTICO: El alias debe ser 'parametroClima' no 'parametro'
 ParametroClima.hasMany(PreferenciaUsuarioClima, {
     foreignKey: 'idParametroClima',
     as: 'preferenciasUsuarios'
 });
 PreferenciaUsuarioClima.belongsTo(ParametroClima, {
     foreignKey: 'idParametroClima',
-    as: 'parametro'
+    as: 'parametroClima'  // ← CAMBIO CRÍTICO: antes era 'parametro'
 });
 
 // ParametroClima - AlertaClima (1:N)
@@ -153,7 +154,7 @@ ParametroClima.hasMany(AlertaClima, {
 });
 AlertaClima.belongsTo(ParametroClima, {
     foreignKey: 'idParametroClima',
-    as: 'parametro'
+    as: 'parametroClima'  // ← CAMBIO: consistencia en naming
 });
 
 // UbicacionGuardada - AlertaClima (1:N)

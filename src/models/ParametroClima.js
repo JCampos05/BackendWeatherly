@@ -1,52 +1,54 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 
-const ConsultaClima = sequelize.define('ConsultaClima', {
-    idConsulta: {
-        type: DataTypes.INTEGER.UNSIGNED,
+const ParametroClima = sequelize.define('ParametroClima', {
+    idParametroClima: {
+        type: DataTypes.SMALLINT.UNSIGNED,
         primaryKey: true,
         autoIncrement: true
     },
-    idUsuario: {
-        type: DataTypes.INTEGER.UNSIGNED
+    codigoParametro: {
+        type: DataTypes.STRING(50),
+        allowNull: false,
+        unique: true,
+        comment: 'Ej: temperature_2m, precipitation'
     },
-    latitud: {
-        type: DataTypes.DECIMAL(10, 8),
-        allowNull: false
+    nombreParametro: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+        comment: 'Nombre legible: Temperatura'
     },
-    longitud: {
-        type: DataTypes.DECIMAL(11, 8),
-        allowNull: false
+    descripcion: {
+        type: DataTypes.TEXT
     },
-    parametrosConsultados: {
-        type: DataTypes.JSON,
-        comment: 'Array de parámetros solicitados'
+    categoriaParametro: {
+        type: DataTypes.ENUM('temperatura', 'precipitacion', 'viento', 'humedad', 'presion', 'radiacion', 'nubosidad', 'otros'),
+        defaultValue: 'otros'
     },
-    respuestaApi: {
-        type: DataTypes.JSON,
-        comment: 'Respuesta de la API'
+    iconoParametro: {
+        type: DataTypes.STRING(50),
+        comment: 'Nombre del icono o clase CSS'
     },
-    fechaConsulta: {
+    esParametroPremium: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        comment: 'Requiere suscripción'
+    },
+    fechaCreado: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
     },
-    tiempoRespuesta: {
-        type: DataTypes.SMALLINT.UNSIGNED,
-        comment: 'Milisegundos'
-    },
-    fechaExpiracion: {
+    fechaActualizado: {
         type: DataTypes.DATE,
-        allowNull: false,
-        comment: 'TTL para cache - Ej: 15 min para datos actuales'
+        defaultValue: DataTypes.NOW
     }
 }, {
-    tableName: 'consultasClima',
+    tableName: 'parametrosClima',
     timestamps: false,
     indexes: [
-        { fields: ['latitud', 'longitud', 'fechaConsulta'] },
-        { fields: ['fechaExpiracion'] },
-        { fields: ['idUsuario', 'fechaConsulta'] }
+        { fields: ['codigoParametro'] },
+        { fields: ['categoriaParametro'] }
     ]
 });
 
-module.exports = ConsultaClima;
+module.exports = ParametroClima;

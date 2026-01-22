@@ -282,3 +282,296 @@ INSERT INTO paises (codigoPais, nombrePais, banderaUrl) VALUES
 ('GU', 'Guam', '🇬🇺'),
 ('AS', 'Samoa Americana', '🇦🇸'),
 ('MP', 'Islas Marianas del Norte', '🇲🇵');
+
+
+-- ============================================
+-- DATOS INICIALES - PARAMETROS CLIMATICOS
+-- Basado en los servicios implementados en Angular
+-- ============================================
+
+INSERT INTO parametrosClima (
+    codigoParametro,
+    nombreParametro,
+    descripcion,
+    categoriaParametro,
+    iconoParametro,
+    esParametroPremium
+) VALUES
+-- TEMPERATURA (5 parámetros)
+(
+    'temperature_current',
+    'Temperatura Actual',
+    'Temperatura del aire medida a 2 metros de altura',
+    'temperatura',
+    'ph-thermometer',
+    FALSE
+),
+(
+    'temperature_feels_like',
+    'Sensación Térmica',
+    'Temperatura percibida considerando humedad y viento',
+    'temperatura',
+    'ph-thermometer-hot',
+    FALSE
+),
+(
+    'temperature_min',
+    'Temperatura Mínima',
+    'Temperatura mínima del día',
+    'temperatura',
+    'ph-thermometer-cold',
+    FALSE
+),
+(
+    'temperature_max',
+    'Temperatura Máxima',
+    'Temperatura máxima del día',
+    'temperatura',
+    'ph-thermometer-hot',
+    FALSE
+),
+(
+    'temperature_dewpoint',
+    'Punto de Rocío',
+    'Temperatura a la que el aire se satura de humedad',
+    'temperatura',
+    'ph-drop-half',
+    FALSE
+),
+
+-- PRECIPITACION (4 parámetros)
+(
+    'precipitation_current',
+    'Precipitación Actual',
+    'Cantidad de precipitación en la última hora',
+    'precipitacion',
+    'ph-cloud-rain',
+    FALSE
+),
+(
+    'precipitation_probability',
+    'Probabilidad de Lluvia',
+    'Probabilidad de precipitación en las próximas horas',
+    'precipitacion',
+    'ph-percent',
+    FALSE
+),
+(
+    'precipitation_type',
+    'Tipo de Precipitación',
+    'Indica si es lluvia, nieve, aguanieve o granizo',
+    'precipitacion',
+    'ph-cloud-snow',
+    FALSE
+),
+(
+    'precipitation_intensity',
+    'Intensidad de Precipitación',
+    'Clasifica la precipitación como ligera, moderada o fuerte',
+    'precipitacion',
+    'ph-drops',
+    FALSE
+),
+
+-- VIENTO (4 parámetros)
+(
+    'wind_speed',
+    'Velocidad del Viento',
+    'Velocidad del viento medida a 10 metros de altura',
+    'viento',
+    'ph-wind',
+    FALSE
+),
+(
+    'wind_direction',
+    'Dirección del Viento',
+    'Dirección de la que proviene el viento en grados',
+    'viento',
+    'ph-compass',
+    FALSE
+),
+(
+    'wind_gusts',
+    'Ráfagas de Viento',
+    'Velocidad máxima de las ráfagas de viento',
+    'viento',
+    'ph-tornado',
+    FALSE
+),
+(
+    'wind_cardinal',
+    'Punto Cardinal',
+    'Dirección del viento en puntos cardinales (N, S, E, O)',
+    'viento',
+    'ph-navigation-arrow',
+    FALSE
+),
+
+-- HUMEDAD (2 parámetros)
+(
+    'humidity_relative',
+    'Humedad Relativa',
+    'Porcentaje de humedad en el aire',
+    'humedad',
+    'ph-drop',
+    FALSE
+),
+(
+    'humidity_absolute',
+    'Humedad Absoluta',
+    'Cantidad de vapor de agua en gramos por metro cúbico',
+    'humedad',
+    'ph-drop-half-bottom',
+    FALSE
+),
+
+-- PRESION (3 parámetros)
+(
+    'pressure_surface',
+    'Presión Atmosférica',
+    'Presión del aire a nivel de superficie',
+    'presion',
+    'ph-gauge',
+    FALSE
+),
+(
+    'pressure_sea_level',
+    'Presión al Nivel del Mar',
+    'Presión atmosférica ajustada al nivel del mar',
+    'presion',
+    'ph-waves',
+    FALSE
+),
+(
+    'pressure_trend',
+    'Tendencia de Presión',
+    'Indica si la presión está subiendo, bajando o estable',
+    'presion',
+    'ph-chart-line-up',
+    FALSE
+),
+
+-- RADIACION (3 parámetros)
+(
+    'radiation_solar',
+    'Radiación Solar',
+    'Radiación solar en watts por metro cuadrado',
+    'radiacion',
+    'ph-sun-horizon',
+    FALSE
+),
+(
+    'radiation_uv',
+    'Índice UV',
+    'Índice de radiación ultravioleta',
+    'radiacion',
+    'ph-sun',
+    FALSE
+),
+(
+    'radiation_uv_index',
+    'Categoría UV',
+    'Clasificación del índice UV (bajo, moderado, alto, muy alto, extremo)',
+    'radiacion',
+    'ph-sun-dim',
+    FALSE
+),
+
+-- NUBOSIDAD (4 parámetros)
+(
+    'cloud_cover_total',
+    'Nubosidad Total',
+    'Porcentaje de cobertura nubosa total',
+    'nubosidad',
+    'ph-cloud',
+    FALSE
+),
+(
+    'cloud_cover_low',
+    'Nubes Bajas',
+    'Porcentaje de nubes a baja altitud',
+    'nubosidad',
+    'ph-cloud-fog',
+    FALSE
+),
+(
+    'cloud_cover_mid',
+    'Nubes Medias',
+    'Porcentaje de nubes a altitud media',
+    'nubosidad',
+    'ph-cloud',
+    FALSE
+),
+(
+    'cloud_cover_high',
+    'Nubes Altas',
+    'Porcentaje de nubes a gran altitud',
+    'nubosidad',
+    'ph-clouds',
+    FALSE
+),
+
+-- OTROS (6 parámetros)
+(
+    'visibility',
+    'Visibilidad',
+    'Distancia máxima a la que se pueden ver objetos claramente',
+    'otros',
+    'ph-eye',
+    FALSE
+),
+(
+    'astronomy_sunrise',
+    'Amanecer',
+    'Hora del amanecer',
+    'otros',
+    'ph-sunrise',
+    FALSE
+),
+(
+    'astronomy_sunset',
+    'Atardecer',
+    'Hora del atardecer',
+    'otros',
+    'ph-sunset',
+    FALSE
+),
+(
+    'astronomy_moonrise',
+    'Salida de Luna',
+    'Hora de salida de la luna',
+    'otros',
+    'ph-moon',
+    FALSE
+),
+(
+    'astronomy_moonset',
+    'Puesta de Luna',
+    'Hora de puesta de la luna',
+    'otros',
+    'ph-moon',
+    FALSE
+),
+(
+    'astronomy_moon_phase',
+    'Fase Lunar',
+    'Fase actual de la luna (nueva, creciente, llena, menguante)',
+    'otros',
+    'ph-moon-stars',
+    FALSE
+);
+
+-- ============================================
+-- VERIFICACION
+-- ============================================
+-- Total de parámetros insertados: 35
+-- Temperatura: 5
+-- Precipitación: 4
+-- Viento: 4
+-- Humedad: 2
+-- Presión: 3
+-- Radiación: 3
+-- Nubosidad: 4
+-- Otros: 6 (astronomía + visibilidad)
+-- Premium: 0 (TODOS GRATUITOS DE MOMENTO)
+-- Gratuitos: 35

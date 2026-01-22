@@ -1,14 +1,19 @@
 const { DataTypes } = require('sequelize');
 const { sequelize } = require('../config/database');
 
-const ConsultaClima = sequelize.define('ConsultaClima', {
-    idConsulta: {
+const UbicacionGuardada = sequelize.define('UbicacionGuardada', {
+    idUbicacionGuardada: {
         type: DataTypes.INTEGER.UNSIGNED,
         primaryKey: true,
         autoIncrement: true
     },
     idUsuario: {
-        type: DataTypes.INTEGER.UNSIGNED
+        type: DataTypes.INTEGER.UNSIGNED,
+        allowNull: false
+    },
+    nombrePersonalizado: {
+        type: DataTypes.STRING(100),
+        comment: 'Ej: Casa, Trabajo, Casa de mamá'
     },
     latitud: {
         type: DataTypes.DECIMAL(10, 8),
@@ -18,35 +23,50 @@ const ConsultaClima = sequelize.define('ConsultaClima', {
         type: DataTypes.DECIMAL(11, 8),
         allowNull: false
     },
-    parametrosConsultados: {
-        type: DataTypes.JSON,
-        comment: 'Array de parámetros solicitados'
+    altitud: {
+        type: DataTypes.SMALLINT
     },
-    respuestaApi: {
-        type: DataTypes.JSON,
-        comment: 'Respuesta de la API'
+    ciudad: {
+        type: DataTypes.STRING(100)
     },
-    fechaConsulta: {
+    estado: {
+        type: DataTypes.STRING(100)
+    },
+    idPais: {
+        type: DataTypes.SMALLINT.UNSIGNED
+    },
+    codigoPostal: {
+        type: DataTypes.STRING(20)
+    },
+    idZonaHoraria: {
+        type: DataTypes.TINYINT.UNSIGNED
+    },
+    esUbicacionPrincipal: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        comment: 'Ubicación por defecto'
+    },
+    ordenVisualizacion: {
+        type: DataTypes.TINYINT.UNSIGNED,
+        defaultValue: 0,
+        comment: 'Orden en el frontend'
+    },
+    fechaCreado: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
     },
-    tiempoRespuesta: {
-        type: DataTypes.SMALLINT.UNSIGNED,
-        comment: 'Milisegundos'
-    },
-    fechaExpiracion: {
+    fechaActualizado: {
         type: DataTypes.DATE,
-        allowNull: false,
-        comment: 'TTL para cache - Ej: 15 min para datos actuales'
+        defaultValue: DataTypes.NOW
     }
 }, {
-    tableName: 'consultasClima',
+    tableName: 'ubicacionesGuardadas',
     timestamps: false,
     indexes: [
-        { fields: ['latitud', 'longitud', 'fechaConsulta'] },
-        { fields: ['fechaExpiracion'] },
-        { fields: ['idUsuario', 'fechaConsulta'] }
+        { fields: ['idUsuario'] },
+        { fields: ['latitud', 'longitud'] },
+        { unique: true, fields: ['idUsuario', 'nombrePersonalizado'] }
     ]
 });
 
-module.exports = ConsultaClima;
+module.exports = UbicacionGuardada;
