@@ -10,6 +10,7 @@ const paisRoutes = require('./pais.routes');
 const preferenciaUsuarioRoutes = require('./preferenciaUsuario.routes');
 const parametroClimaRoutes = require('./parametroClima.routes');
 const preferenciaUsuarioClimaRoutes = require('./preferenciaUsuarioClima.routes');
+const ubicacionGuardadaRoutes = require('./ubicacionGuardada.routes');
 
 // Definir rutas
 router.use('/auth', authRoutes);
@@ -20,5 +21,6 @@ router.use('/paises', paisRoutes);
 router.use('/preferencias-usuario', preferenciaUsuarioRoutes);
 router.use('/parametros-clima', parametroClimaRoutes);
 router.use('/preferencias-clima', preferenciaUsuarioClimaRoutes);
+router.use('/ubicaciones-guardadas', ubicacionGuardadaRoutes);
 
 module.exports = router;
