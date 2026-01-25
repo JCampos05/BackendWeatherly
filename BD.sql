@@ -114,6 +114,7 @@ CREATE TABLE parametrosClima (
     categoriaParametro ENUM('temperatura', 'precipitacion', 'viento', 'humedad', 'presion', 'radiacion', 'nubosidad', 'otros') DEFAULT 'otros',
     iconoParametro VARCHAR(50) COMMENT 'Nombre del icono o clase CSS',
     esParametroPremium BOOLEAN DEFAULT FALSE COMMENT 'Requiere suscripción',
+    esObligatorio BOOLEAN DEFAULT FALSE,
     fechaCreado DATETIME DEFAULT CURRENT_TIMESTAMP,
     fechaActualizado DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     INDEX idx_codigo (codigoParametro),

@@ -34,6 +34,11 @@ const ParametroClima = sequelize.define('ParametroClima', {
         defaultValue: false,
         comment: 'Requiere suscripción'
     },
+    esObligatorio: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        comment: 'Parámetro crítico que no se puede desactivar'
+    },
     fechaCreado: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW
