@@ -117,3 +117,26 @@ exports.getParametrosPremium = async (req, res) => {
         });
     }
 };
+
+/**
+ * NUEVO: Obtener todas las categorías
+ */
+exports.getAllCategorias = async (req, res) => {
+    try {
+        const categorias = await parametroClimaService.getAllCategorias();
+
+        res.status(200).json({
+            success: true,
+            message: 'Categorías obtenidas',
+            data: categorias
+        });
+
+    } catch (error) {
+        console.error('Error en getAllCategorias controller:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Error al obtener categorías',
+            error: error.message
+        });
+    }
+};

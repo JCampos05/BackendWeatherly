@@ -561,17 +561,95 @@ INSERT INTO parametrosClima (
     FALSE
 );
 
+
 -- ============================================
--- VERIFICACION
+-- DATOS INICIALES - CATEGORÍAS
 -- ============================================
--- Total de parámetros insertados: 35
--- Temperatura: 5
--- Precipitación: 4
--- Viento: 4
--- Humedad: 2
--- Presión: 3
--- Radiación: 3
--- Nubosidad: 4
--- Otros: 6 (astronomía + visibilidad)
--- Premium: 0 (TODOS GRATUITOS DE MOMENTO)
--- Gratuitos: 35
+INSERT INTO categoriasParametros (
+    codigoCategoria,
+    nombreCategoria,
+    descripcionCategoria,
+    iconoCategoria,
+    colorCategoria,
+    ordenVisualizacion
+) VALUES
+(
+    'temperatura',
+    'Temperatura',
+    'Mediciones de temperatura del aire, sensación térmica y punto de rocío',
+    'ph-thermometer',
+    '#ef4444',
+    1
+),
+(
+    'precipitacion',
+    'Precipitación',
+    'Datos sobre lluvia, nieve, granizo y probabilidad de precipitación',
+    'ph-cloud-rain',
+    '#3b82f6',
+    2
+),
+(
+    'viento',
+    'Viento',
+    'Velocidad, dirección y ráfagas del viento',
+    'ph-wind',
+    '#06b6d4',
+    3
+),
+(
+    'humedad',
+    'Humedad',
+    'Humedad relativa y absoluta del aire',
+    'ph-drop',
+    '#0ea5e9',
+    4
+),
+(
+    'presion',
+    'Presión',
+    'Presión atmosférica a nivel de superficie y del mar',
+    'ph-gauge',
+    '#8b5cf6',
+    5
+),
+(
+    'radiacion',
+    'Radiación',
+    'Radiación solar e índice UV',
+    'ph-sun',
+    '#f59e0b',
+    6
+),
+(
+    'nubosidad',
+    'Nubosidad',
+    'Cobertura de nubes en diferentes altitudes',
+    'ph-cloud',
+    '#94a3b8',
+    7
+),
+(
+    'visibilidad',
+    'Visibilidad',
+    'Distancia máxima de visibilidad atmosférica',
+    'ph-eye',
+    '#64748b',
+    8
+),
+(
+    'astronomia',
+    'Astronomía',
+    'Datos de salida/puesta de sol y luna, fases lunares',
+    'ph-moon-stars',
+    '#4f46e5',
+    9
+),
+(
+    'otros',
+    'Otros',
+    'Parámetros adicionales y datos generales',
+    'ph-dots-three',
+    '#6b7280',
+    10
+);

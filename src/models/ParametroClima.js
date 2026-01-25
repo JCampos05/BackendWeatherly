@@ -22,8 +22,17 @@ const ParametroClima = sequelize.define('ParametroClima', {
         type: DataTypes.TEXT
     },
     categoriaParametro: {
-        type: DataTypes.ENUM('temperatura', 'precipitacion', 'viento', 'humedad', 'presion', 'radiacion', 'nubosidad', 'otros'),
-        defaultValue: 'otros'
+        type: DataTypes.ENUM('temperatura', 'precipitacion', 'viento', 'humedad', 'presion', 'radiacion', 'nubosidad', 'visibilidad', 'astronomia', 'otros'),
+        defaultValue: 'otros',
+        comment: 'DEPRECATED - Usar idCategoriaParametro'
+    },
+    idCategoriaParametro: {
+        type: DataTypes.TINYINT.UNSIGNED,
+        allowNull: false,
+        references: {
+            model: 'categoriasParametros',
+            key: 'idCategoriaParametro'
+        }
     },
     iconoParametro: {
         type: DataTypes.STRING(50),
@@ -52,7 +61,8 @@ const ParametroClima = sequelize.define('ParametroClima', {
     timestamps: false,
     indexes: [
         { fields: ['codigoParametro'] },
-        { fields: ['categoriaParametro'] }
+        { fields: ['categoriaParametro'] },
+        { fields: ['idCategoriaParametro'] }
     ]
 });
 

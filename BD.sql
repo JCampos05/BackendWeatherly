@@ -289,6 +289,24 @@ CREATE TABLE preferenciasUsuario (
 ) ENGINE=InnoDB;
 
 -- ============================================
+-- TABLA: categoriasParametros
+-- Catálogo de categorías de parámetros climáticos
+-- ============================================
+CREATE TABLE categoriasParametros (
+    idCategoriaParametro TINYINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    codigoCategoria VARCHAR(50) NOT NULL UNIQUE COMMENT 'temperatura, precipitacion, viento, etc.',
+    nombreCategoria VARCHAR(100) NOT NULL COMMENT 'Nombre legible de la categoría',
+    descripcionCategoria TEXT COMMENT 'Descripción de qué incluye esta categoría',
+    iconoCategoria VARCHAR(50) COMMENT 'Icono representativo de la categoría',
+    colorCategoria VARCHAR(20) COMMENT 'Color hex o nombre para UI (#3b82f6, primary, etc.)',
+    ordenVisualizacion TINYINT UNSIGNED DEFAULT 0 COMMENT 'Orden de aparición en el UI',
+    fechaCreado DATETIME DEFAULT CURRENT_TIMESTAMP,
+    fechaActualizado DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    INDEX idx_codigo (codigoCategoria),
+    INDEX idx_orden (ordenVisualizacion)
+) ENGINE=InnoDB;
+
+-- ============================================
 -- EVENTO: Limpieza automática de cache expirado
 -- Se ejecuta cada hora para eliminar consultas vencidas
 -- ============================================

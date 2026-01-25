@@ -6,6 +6,7 @@ const ZonaHoraria = require('./ZonaHoraria');
 const Usuario = require('./Usuario');
 const Ubicacion = require('./Ubicacion');
 const UbicacionGuardada = require('./UbicacionGuardada');
+const CategoriaParametro = require('./CategoriaParametro');  // ← NUEVO
 const ParametroClima = require('./ParametroClima');
 const PreferenciaUsuarioClima = require('./PreferenciaUsuarioClima');
 const ConsultaClima = require('./ConsultaClima');
@@ -136,15 +137,24 @@ UbicacionGuardada.belongsTo(ZonaHoraria, {
     as: 'zonaHoraria'
 });
 
+// ← CategoriaParametro - ParametroClima (1:N)
+CategoriaParametro.hasMany(ParametroClima, {
+    foreignKey: 'idCategoriaParametro',
+    as: 'parametros'
+});
+ParametroClima.belongsTo(CategoriaParametro, {
+    foreignKey: 'idCategoriaParametro',
+    as: 'categoria'
+});
+
 // ParametroClima - PreferenciaUsuarioClima (1:N)
-// FIX CRÍTICO: El alias debe ser 'parametroClima' no 'parametro'
 ParametroClima.hasMany(PreferenciaUsuarioClima, {
     foreignKey: 'idParametroClima',
     as: 'preferenciasUsuarios'
 });
 PreferenciaUsuarioClima.belongsTo(ParametroClima, {
     foreignKey: 'idParametroClima',
-    as: 'parametroClima'  // ← CAMBIO CRÍTICO: antes era 'parametro'
+    as: 'parametroClima'
 });
 
 // ParametroClima - AlertaClima (1:N)
@@ -154,7 +164,7 @@ ParametroClima.hasMany(AlertaClima, {
 });
 AlertaClima.belongsTo(ParametroClima, {
     foreignKey: 'idParametroClima',
-    as: 'parametroClima'  // ← CAMBIO: consistencia en naming
+    as: 'parametroClima'
 });
 
 // UbicacionGuardada - AlertaClima (1:N)
@@ -184,6 +194,7 @@ module.exports = {
     Usuario,
     Ubicacion,
     UbicacionGuardada,
+    CategoriaParametro,  
     ParametroClima,
     PreferenciaUsuarioClima,
     ConsultaClima,

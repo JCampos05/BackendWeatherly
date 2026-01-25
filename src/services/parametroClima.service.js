@@ -1,13 +1,23 @@
-const { ParametroClima } = require('../models');
+const { ParametroClima, CategoriaParametro } = require('../models');
 
 class ParametroClimaService {
     /**
-     * Obtener todos los parámetros climáticos disponibles
+     * Obtener todos los parámetros climáticos disponibles CON su categoría
      */
     async getAllParametros() {
         try {
             const parametros = await ParametroClima.findAll({
-                order: [['categoriaParametro', 'ASC'], ['nombreParametro', 'ASC']]
+                include: [
+                    {
+                        model: CategoriaParametro,
+                        as: 'categoria',
+                        attributes: ['idCategoriaParametro', 'codigoCategoria', 'nombreCategoria', 'descripcionCategoria', 'iconoCategoria', 'colorCategoria', 'ordenVisualizacion']
+                    }
+                ],
+                order: [
+                    [{ model: CategoriaParametro, as: 'categoria' }, 'ordenVisualizacion', 'ASC'],
+                    ['nombreParametro', 'ASC']
+                ]
             });
 
             return parametros;
@@ -19,12 +29,26 @@ class ParametroClimaService {
     }
 
     /**
-     * Obtener parámetros por categoría
+     * Obtener parámetros por categoría (usando ID o código)
      */
-    async getParametrosByCategoria(categoria) {
+    async getParametrosByCategoria(categoriaIdentifier) {
         try {
+            // Determinar si es ID o código
+            const isId = !isNaN(categoriaIdentifier);
+            
+            const whereClause = isId 
+                ? { idCategoriaParametro: categoriaIdentifier }
+                : { '$categoria.codigoCategoria$': categoriaIdentifier };
+
             const parametros = await ParametroClima.findAll({
-                where: { categoriaParametro: categoria },
+                include: [
+                    {
+                        model: CategoriaParametro,
+                        as: 'categoria',
+                        attributes: ['idCategoriaParametro', 'codigoCategoria', 'nombreCategoria', 'descripcionCategoria', 'iconoCategoria', 'colorCategoria']
+                    }
+                ],
+                where: whereClause,
                 order: [['nombreParametro', 'ASC']]
             });
 
@@ -37,11 +61,19 @@ class ParametroClimaService {
     }
 
     /**
-     * Obtener parámetro por ID
+     * Obtener parámetro por ID CON su categoría
      */
     async getParametroById(idParametroClima) {
         try {
-            const parametro = await ParametroClima.findByPk(idParametroClima);
+            const parametro = await ParametroClima.findByPk(idParametroClima, {
+                include: [
+                    {
+                        model: CategoriaParametro,
+                        as: 'categoria',
+                        attributes: ['idCategoriaParametro', 'codigoCategoria', 'nombreCategoria', 'descripcionCategoria', 'iconoCategoria', 'colorCategoria']
+                    }
+                ]
+            });
 
             if (!parametro) {
                 throw new Error('Parámetro no encontrado');
@@ -56,13 +88,23 @@ class ParametroClimaService {
     }
 
     /**
-     * Obtener parámetros gratuitos (no premium)
+     * Obtener parámetros gratuitos (no premium) CON categorías
      */
     async getParametrosGratuitos() {
         try {
             const parametros = await ParametroClima.findAll({
                 where: { esParametroPremium: false },
-                order: [['categoriaParametro', 'ASC'], ['nombreParametro', 'ASC']]
+                include: [
+                    {
+                        model: CategoriaParametro,
+                        as: 'categoria',
+                        attributes: ['idCategoriaParametro', 'codigoCategoria', 'nombreCategoria', 'iconoCategoria', 'colorCategoria']
+                    }
+                ],
+                order: [
+                    [{ model: CategoriaParametro, as: 'categoria' }, 'ordenVisualizacion', 'ASC'],
+                    ['nombreParametro', 'ASC']
+                ]
             });
 
             return parametros;
@@ -74,19 +116,57 @@ class ParametroClimaService {
     }
 
     /**
-     * Obtener parámetros premium
+     * Obtener parámetros premium CON categorías
      */
     async getParametrosPremium() {
         try {
             const parametros = await ParametroClima.findAll({
                 where: { esParametroPremium: true },
-                order: [['categoriaParametro', 'ASC'], ['nombreParametro', 'ASC']]
+                include: [
+                    {
+                        model: CategoriaParametro,
+                        as: 'categoria',
+                        attributes: ['idCategoriaParametro', 'codigoCategoria', 'nombreCategoria', 'iconoCategoria', 'colorCategoria']
+                    }
+                ],
+                order: [
+                    [{ model: CategoriaParametro, as: 'categoria' }, 'ordenVisualizacion', 'ASC'],
+                    ['nombreParametro', 'ASC']
+                ]
             });
 
             return parametros;
 
         } catch (error) {
             console.error('Error en getParametrosPremium:', error.message);
+            throw error;
+        }
+    }
+
+    /**
+     * NUEVO: Obtener todas las categorías con conteo de parámetros
+     */
+    async getAllCategorias() {
+        try {
+            const categorias = await CategoriaParametro.findAll({
+                include: [
+                    {
+                        model: ParametroClima,
+                        as: 'parametros',
+                        attributes: ['idParametroClima']
+                    }
+                ],
+                order: [['ordenVisualizacion', 'ASC']]
+            });
+
+            // Formatear respuesta con conteo
+            return categorias.map(cat => ({
+                ...cat.toJSON(),
+                cantidadParametros: cat.parametros ? cat.parametros.length : 0
+            }));
+
+        } catch (error) {
+            console.error('Error en getAllCategorias:', error.message);
             throw error;
         }
     }

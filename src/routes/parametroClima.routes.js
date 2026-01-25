@@ -6,6 +6,10 @@ const { verifyToken } = require('../middleware/auth.middleware');
 // Todas las rutas requieren autenticación
 router.use(verifyToken);
 
+// Categorías
+router.get('/categorias', parametroClimaController.getAllCategorias);
+
+// Parámetros
 router.get('/', parametroClimaController.getAllParametros);
 router.get('/gratuitos', parametroClimaController.getParametrosGratuitos);
 router.get('/premium', parametroClimaController.getParametrosPremium);
